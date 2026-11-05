@@ -50,7 +50,7 @@
 | M6 — Hardening & Handover | 0/7 | 0/33 | — | ░░░░░░░░░░ 0% | ⬜ belum mulai |
 | **Total** | **0/73** | **0/356** | **—** | **░░░░░░░░░░ 0%** | |
 
-Status task: ⬜ 72 todo · 🔄 0 doing · 👀 1 review · ✅ 0 done · ⛔ 0 blocked  |  Kriteria terpenuhi: 3/172  |  Isu terbuka: 9 (high: 2, menunggu pihak lain: 3)
+Status task: ⬜ 71 todo · 🔄 0 doing · 👀 1 review · ✅ 0 done · ⛔ 1 blocked  |  Kriteria terpenuhi: 3/172  |  Isu terbuka: 10 (high: 3, menunggu pihak lain: 3)
 <!-- progress:end -->
 
 ---
@@ -63,7 +63,7 @@ Status task: ⬜ 72 todo · 🔄 0 doing · 👀 1 review · ✅ 0 done · ⛔ 0
 | ---- | --- |
 | Tanggal | 2026-11-06 |
 | Posisi | T0.04 `review`: kerangka Laravel 13 terbaru terverifikasi lokal dan di Docker (`make setup` dari salinan bersih 3 mnt 4 dtk, `make test`, modal di browser). Pest, Pint, Larastan, build Vite hijau. |
-| Berikutnya | Menunggu Salman me-review dan me-merge PR #1 (T0.04). Setelah itu T0.05 (CI) dari `main` bersih. T0.01 dan T0.03 menunggu NDA / akun klien. |
+| Berikutnya | Selesaikan ISS-012 (cek Actions/billing akun GitHub), lalu verifikasi T0.05: CI harus merah untuk pelanggaran Pint/Larastan/test/audit, coverage jadi artefak, durasi ≤ 10 menit. PR #2 terbuka. |
 | Perlu diingat | T0.04 dimulai sebelum T0.02/T0.03 (ISS-009), jadi `todo-summary --check` sengaja gagal sampai keduanya selesai. Versi terbaru belum disetujui architect (ADR-009). Di Mac ini `docker-credential-desktop` belum ada di PATH: tambahkan `/Applications/Docker.app/Contents/Resources/bin`. Test selalu lewat `make test` (DB `_test`). |
 | Menunggu klien | Vendor POS + contoh file (ISS-001), pilihan hosting (ISS-002), sumber data migrasi (ISS-003). |
 
@@ -94,7 +94,7 @@ Total: **73 task · 356 jam** (rentang PRD 310–400 jam). Detail tiap task: `do
 | T0.02 | Kesepakatan target NFR & ADR awal | 4 | — | 0/3 | T0.01 | ⬜ todo | — |  |
 | T0.03 | Repository di akun klien | 2 | — | 0/3 | Akun klien (C-03) | ⬜ todo | — | Prasyarat eksternal: akun/organisasi klien tersedia. |
 | T0.04 | Kerangka project & environment lokal | 5 | — | 3/3 | T0.02, T0.03 | 👀 review | — | Dimulai atas perintah Salman sebelum T0.02/T0.03 (ISS-009). Bukti: `make setup` dari salinan bersih 3 mnt 4 dtk; `make test` hijau; modal lolos di browser tanpa pesan console |
-| T0.05 | Pipeline CI | 4 | — | 0/3 | T0.04 | 🔄 doing | — | Dimulai 2026-11-06 setelah PR #1 (T0.04) ter-merge  |
+| T0.05 | Pipeline CI | 4 | — | 0/3 | T0.04 | ⛔ blocked | — | Workflow ditulis (`.github/workflows/ci.yml`) tapi belum terbukti: GitHub Actions `startup_failure` untuk workflow apa pun (ISS-012) |
 | T0.06 | Dokumen arsitektur & ERD v1 | 4 | — | 0/2 | T0.02 | ⬜ todo | — |  |
 | T0.07 | Rencana sample data | 2 | — | 0/2 | T0.01 | ⬜ todo | — | Butuh contoh file POS (ISS-001). |
 | T0.08 | Proposal budget & timeline | 3 | — | 0/2 | T0.01, T0.02 | ⬜ todo | — |  |
@@ -300,6 +300,7 @@ ID berurutan (ISS-001, ISS-002, …), tidak dipakai ulang. Isu yang selesai diub
 | ISS-009 | risk | T0.04 dimulai sebelum T0.02 (ADR-009 penguncian versi) dan T0.03 (repo klien) selesai; stack dipasang di versi terbaru atas perintah Salman | med | open | T0.04, T0.02, T0.03 | Developer | 2026-11-06 | — | Versi terpasang: Laravel 13.40, Livewire 4.4, Pest 5.3, Larastan 3.14, Bootstrap 5.3.8, Vite 8.3, PHP 8.5, PostgreSQL 18. Harus disetujui architect di ADR-009; bila ditolak, turunkan versi |
 | ISS-010 | debt | Docker lokal dan modal Bootstrap di browser belum diuji | med | closed | T0.04 | Developer | 2026-11-06 | 2026-11-06 | `make setup` dari salinan bersih berhasil; modal buka/tutup lolos sebelum dan sesudah re-render Livewire, console bersih. Temuan yang diperbaiki: PECL redis gagal di PHP 8.5, `artisan serve` membuang env Compose, port 5432 bentrok, test sempat menyentuh DB dev (kini dijaga `TestCase` + `make test`) |
 | ISS-011 | risk | Repo sementara di akun GitHub pribadi developer (salputh/retail-inventory-platform, privat), bukan organisasi klien | med | open | T0.03, C-03 | Developer | 2026-11-06 | — | Dipakai sampai akun klien tersedia; lalu transfer repo ke organisasi klien dan setel proteksi branch (CD-01). T0.03 tetap `todo` |
+| ISS-012 | bug | GitHub Actions `startup_failure` di repo ini bahkan untuk workflow `echo ok` tanpa action; tidak ada workflow terdaftar (`actions/workflows` kosong) | high | open | T0.05 | Salman | 2026-11-06 | — | Bukan masalah isi file (diuji: workflow lengkap, 1 job, dan `echo ok`). Dugaan: pembatasan akun/billing untuk repo privat. Cek halaman run di GitHub (Actions) dan Settings → Billing akun salputh |
 
 ### Pertanyaan validasi Fase 1 (PRD §6.1.11)
 
@@ -367,6 +368,7 @@ Satu baris per kejadian penting: task selesai, keputusan, perubahan scope, jawab
 
 | Tanggal | Kejadian | Terkait |
 | ------- | -------- | ------- |
+| 2026-11-06 | T0.05: workflow CI ditulis; semua run GitHub Actions `startup_failure` (ISS-012), task `blocked` | T0.05, ISS-012 |
 | 2026-11-06 | Repo sementara dibuat di akun pribadi; PR #1 (T0.04) dibuka. Pekerjaan berikutnya menunggu PR #1 di-merge | ISS-011, T0.04 |
 | 2026-11-06 | T0.04 diverifikasi di Docker dan browser; naik ke `review` menunggu keputusan Salman | T0.04, ISS-010 |
 | 2026-11-06 | T0.04 dimulai: skeleton Laravel 13 + Livewire 4 + Bootstrap (Sass) + Pest + Larastan, struktur `app/Domain/*`, Docker compose, Makefile, halaman contoh | T0.04, ISS-009, ISS-010 |
