@@ -40,3 +40,6 @@ Thumbs.db
 /database/*.sqlite
 /database/*.sqlite-journal
 .phpstan.cache
+
+# Skill pribadi developer, bukan bagian repo klien
+/personal-skills/

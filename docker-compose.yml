@@ -1,0 +1,47 @@
+# Environment lokal: app, PostgreSQL, Redis, Mailpit. Hanya untuk development.
+services:
+  app:
+    build: ./docker
+    image: retail-inventory-dev
+    # php -S (bukan artisan serve): serve membuang env var yang juga ada di .env
+    command: sh -c "cd public && exec php -S 0.0.0.0:8000 -t . ../vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php"
+    ports: ["8000:8000"]
+    volumes: [".:/var/www/html"]
+    env_file: [".env"]
+    environment:
+      DB_HOST: pgsql
+      REDIS_HOST: redis
+      MAIL_HOST: mailpit
+    depends_on:
+      pgsql: { condition: service_healthy }
+      redis: { condition: service_started }
+
+  vite:
+    image: retail-inventory-dev
+    command: npm run dev -- --host 0.0.0.0
+    ports: ["5173:5173"]
+    volumes: [".:/var/www/html"]
+
+  pgsql:
+    image: postgres:18
+    environment:
+      POSTGRES_DB: retail_inventory
+      POSTGRES_USER: retail
+      POSTGRES_PASSWORD: secret
+    ports: ["5433:5432"]
+    volumes: ["pgdata:/var/lib/postgresql"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U retail -d retail_inventory"]
+      interval: 5s
+      retries: 10
+
+  redis:
+    image: redis:8-alpine
+    ports: ["6379:6379"]
+
+  mailpit:
+    image: axllent/mailpit:latest
+    ports: ["8025:8025", "1025:1025"]
+
+volumes:
+  pgdata:
