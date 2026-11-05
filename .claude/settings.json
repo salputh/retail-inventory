@@ -1,0 +1,53 @@
+{
+  "model": "sonnet",
+  "permissions": {
+    "allow": [
+      "Bash(php artisan test *)",
+      "Bash(php artisan inventory:verify *)",
+      "Bash(./vendor/bin/pint *)",
+      "Bash(./vendor/bin/phpstan *)",
+      "Bash(php scripts/todo-summary.php *)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git branch *)",
+      "Bash(git checkout -b task/*)",
+      "Bash(git switch -c task/*)"
+    ],
+    "ask": [
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(composer require *)",
+      "Bash(composer update *)",
+      "Bash(composer remove *)",
+      "Bash(npm install *)",
+      "Bash(npm uninstall *)",
+      "Bash(npm update *)",
+      "Edit(./docs/Architecture.md)",
+      "Edit(./docs/PRD-retail-inventory.md)",
+      "Edit(./docs/adr/**)",
+      "Edit(./.github/**)",
+      "Edit(./docker-compose*.yml)",
+      "Edit(./Dockerfile*)",
+      "Edit(./.env.example)"
+    ],
+    "deny": [
+      "Bash(git push --force *)",
+      "Bash(git push -f *)",
+      "Bash(git push * --force*)",
+      "Bash(git * --no-verify*)",
+      "Bash(rm -rf *)",
+      "Bash(php artisan * --env=production*)",
+      "Bash(php artisan * --env=staging*)",
+      "Read(./.env)",
+      "Read(./.env.local)",
+      "Read(./.env.staging)",
+      "Read(./.env.production)",
+      "Edit(./.env)",
+      "Edit(./.env.local)",
+      "Edit(./.env.staging)",
+      "Edit(./.env.production)",
+      "Edit(./WORKFLOW.md)"
+    ]
+  }
+}

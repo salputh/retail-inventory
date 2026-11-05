@@ -1,0 +1,42 @@
+*.log
+.DS_Store
+.env
+.env.*
+!.env.example
+.env.backup
+.env.production
+.phpactor.json
+.phpunit.result.cache
+/.codex
+/.cursor/
+/.idea
+/.nova
+/.phpunit.cache
+/.vscode
+/.zed
+/auth.json
+/node_modules
+/public/build
+/public/fonts-manifest.dev.json
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+/vendor
+_ide_helper.php
+Homestead.json
+Homestead.yaml
+Thumbs.db
+
+# Referensi UI lokal, tidak boleh masuk repo klien (lihat CLAUDE.md)
+/basalt/
+
+# Pengaturan Claude Code lokal (settings.json dan skills tetap di-commit)
+/.claude/settings.local.json
+/.claude/worktrees/
+
+# Artefak test, coverage, dan database lokal
+/coverage
+/database/*.sqlite
+/database/*.sqlite-journal
+.phpstan.cache
